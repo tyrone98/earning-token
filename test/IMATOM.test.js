@@ -71,5 +71,12 @@ contract('IMATOM', accounts => {
         assert.equal(balance1.toNumber(), Math.trunc(2128 * 1.2), 'Balance wasn\'t correctly taken from the second account');
     });
 
+    it('should decrease 10 coins after burn 10 coins', async () => {
+        await token.mint(accounts[0], 1024, 'cosmosaddress1234', { from: owner });
 
+        await token.burn(10, "cosmosaddress1234", { from: accounts[0] });
+
+        let balance = await token.balanceOf.call(accounts[0]);
+        assert.equal(balance.toNumber(), 1024 - 10, 'Balance wasn\'t correctly after burn 10 coins');
+    });
 });
